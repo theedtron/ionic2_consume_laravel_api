@@ -1,6 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import {IonicApp, IonicModule, IonicErrorHandler, NavController} from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { AboutPage } from '../pages/about/about';
@@ -13,6 +13,10 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Passportprovider } from '../providers/passportprovider';
 import { HttpModule } from "@angular/http";
+import {Storage, StorageConfigToken} from '@ionic/storage';
+import {provideStorage} from "@ionic/storage/es5/storage";
+import {Register} from "../pages/register/register";
+import {Verify} from "../pages/verify/verify";
 
 @NgModule({
   declarations: [
@@ -20,7 +24,9 @@ import { HttpModule } from "@angular/http";
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage,
+    Register,
+    Verify,
   ],
   imports: [
     BrowserModule,
@@ -34,13 +40,17 @@ import { HttpModule } from "@angular/http";
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage,
+    Register,
+    Verify
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    [NavController],
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    [Passportprovider]
+    [Passportprovider],
+    { provide: Storage, useFactory: provideStorage, deps: [StorageConfigToken]},
   ]
 })
 export class AppModule {}

@@ -10,23 +10,27 @@ import { Post } from '../../models/posts';
 })
 export class HomePage {
 
-    posts: Post[];
+  posts: Post[];
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private ppapi: Passportprovider, private loadingCtrl: LoadingController) {
-        // Create the popup
-        let loadingPopup = this.loadingCtrl.create({
-            content: 'Loading...'
-        });
+  constructor(public navCtrl: NavController, public navParams: NavParams, private ppapi: Passportprovider, private loadingCtrl: LoadingController) {
+    // Create the popup
+    let loadingPopup = this.loadingCtrl.create({
+      content: 'Loading...'
+    });
 
-        // Show the popup
-        loadingPopup.present();
+    // Show the popup
+    loadingPopup.present();
 
-        //load data from api
-        ppapi.load().subscribe(posts =>{
-            console.log(posts);
-            this.posts = posts;
-            loadingPopup.dismiss();
-        })
-    }
+    //load data from api
+    ppapi.load().subscribe(post =>{
+      // console.log(post);
+      // this.posts = post;
+      // loadingPopup.dismiss();
+      setTimeout(() => {
+        this.posts = post;
+        loadingPopup.dismiss();
+      }, 1000);
+    })
+  }
 
 }
