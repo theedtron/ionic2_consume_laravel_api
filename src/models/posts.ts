@@ -3,4 +3,5 @@ export interface Post {
     Id: number;
     title: string;
     body: string;
+    status: number
 }

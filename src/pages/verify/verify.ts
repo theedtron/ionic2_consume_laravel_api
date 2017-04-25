@@ -21,7 +21,7 @@ export class Verify {
     myForm: FormGroup;
     private myData: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, formbuilder: FormBuilder, public http: Http) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, formbuilder: FormBuilder, public http: Http, public storage: Storage) {
         // create a new formbuilder group with 'phone' and 'name' as fields
         this.myForm = formbuilder.group({
             'verification_code': ['', Validators.required]
@@ -46,10 +46,8 @@ export class Verify {
             .subscribe(data => {
                 console.log(data['_body']);
 
-                var keystore = new Storage(null);
-
                 // set a key/value
-                keystore.set('key', data['_body']);
+                this.storage.set('key', data['_body']);
             }, error => {
                 console.log('error');
             });

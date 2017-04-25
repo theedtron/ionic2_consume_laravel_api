@@ -13,8 +13,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Passportprovider } from '../providers/passportprovider';
 import { HttpModule } from "@angular/http";
-import {Storage, StorageConfigToken} from '@ionic/storage';
-import {provideStorage} from "@ionic/storage/es5/storage";
+import { IonicStorageModule } from '@ionic/storage';
+// import {provideStorage} from "@ionic/storage/es5/storage";
 import {Register} from "../pages/register/register";
 import {Verify} from "../pages/verify/verify";
 
@@ -32,6 +32,7 @@ import {Verify} from "../pages/verify/verify";
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
     SuperTabsModule
   ],
   bootstrap: [IonicApp],
@@ -50,7 +51,6 @@ import {Verify} from "../pages/verify/verify";
     [NavController],
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     [Passportprovider],
-    { provide: Storage, useFactory: provideStorage, deps: [StorageConfigToken]},
   ]
 })
 export class AppModule {}

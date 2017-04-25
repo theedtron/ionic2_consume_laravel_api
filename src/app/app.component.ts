@@ -10,7 +10,7 @@ import {AboutPage} from '../pages/about/about';
 import {Register} from '../pages/register/register';
 import {Passportprovider} from "../providers/passportprovider";
 // import {User} from "../models/user";
-// import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage';
 
 @Component({
     templateUrl: 'app.html'
@@ -18,6 +18,7 @@ import {Passportprovider} from "../providers/passportprovider";
 export class MyApp {
     @ViewChild(Nav) nav: Nav;
 
+    // rootPage:any = this.checkLogin();
     rootPage:any = TabsPage;
 
     pages: Array<{title: string, component: any}>;
@@ -31,14 +32,6 @@ export class MyApp {
             { title: 'About', component: AboutPage },
             { title: 'Register', component: Register }
         ];
-
-        this.passportprovide.error.subscribe((error) => {
-            if (error.status == 401 ||error.status == 403) {
-                // unauthorised, redirect to login
-                this.navCtrl.setRoot(Register);
-            }
-            // error, alert message
-        });
     }
 
     initializeApp() {
@@ -65,26 +58,38 @@ export class MyApp {
     //     this.theuser = user;
     //
     // });
+      var items;
 
-    // var thestore = new Storage(null);
-    //
-    // var checkkey = thestore.get('key');
-    //
-    // if (typeof checkkey !== null || typeof typeof checkkey !== 'undefined'){
-    //   console.log(checkkey);
-    //     return TabsPage;
-    // }else {
-    //   console.log('No key');
-    //     return Register;
-    // }
+      var theerrorlog = this.passportprovide.error.subscribe(error => {
+          console.log('checking error');
+          if (error.status == 401 ||error.status == 403) {
+              // unauthorised, redirect to login
+              return 'unauthorized';
+          }else {
+              return 'authorized';
+          }
+          // error, alert message
+      });
 
-    // if (this.theuser != null){
-    //     console.log('has');
-    //     return TabsPage;
-    // }else {
-    //     console.log('not has');
-    //     return Register
-    // }
+      console.log(theerrorlog);
+
+    var thestore = new Storage(null);
+
+    var checkkey = thestore.get('key').then((data) => {
+        items = data;
+        console.log(data);
+    });
+
+    if (typeof checkkey == null || typeof checkkey == 'undefined' || typeof checkkey == 'object'){
+
+        console.log('No key');
+        console.log(checkkey);
+        return Register;
+
+    }else {
+        console.log(checkkey);
+        return TabsPage;
+    }
 
   }
 }
